@@ -1,0 +1,15 @@
+version: "2.1"
+services:
+  eureka-service-discovery:
+    build: ./eureka-service-discovery
+    ports:
+      - 8090:8090
+  producer:
+    build: ./producer
+    ports:
+     - 8080:8080
+    depends_on:
+      - eureka-service-discovery
+    links:
+      - eureka-service-discovery
+

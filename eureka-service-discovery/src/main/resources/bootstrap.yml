@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: eureka-service-discovery
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-service-discovery:8090/eureka
+
+server:
+  port: 8090
+
+management:
+  security:
+    enabled: false
