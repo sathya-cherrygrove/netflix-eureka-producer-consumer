@@ -12,4 +12,11 @@ services:
       - eureka-service-discovery
     links:
       - eureka-service-discovery
-
+  consumer:
+    build: ./consumer
+    ports:
+     - 8081:8081
+    depends_on:
+     - eureka-service-discovery
+    links:
+     - eureka-service-discovery
