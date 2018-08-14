@@ -4,10 +4,18 @@ services:
     build: ./eureka-service-discovery
     ports:
       - 8090:8090
-  producer:
+  producer1:
     build: ./producer
     ports:
      - 8080:8080
+    depends_on:
+      - eureka-service-discovery
+    links:
+      - eureka-service-discovery
+  producer2:
+    build: ./producer
+    ports:
+     - 8085:8080
     depends_on:
       - eureka-service-discovery
     links:
@@ -20,3 +28,12 @@ services:
      - eureka-service-discovery
     links:
      - eureka-service-discovery
+  netflix-zuul:
+    build: ./netflix-zuul
+    ports:
+     - 8079:8079
+    depends_on:
+     - eureka-service-discovery
+    links:
+     - eureka-service-discovery
+

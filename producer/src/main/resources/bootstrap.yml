@@ -10,3 +10,5 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka-service-discovery:8090/eureka
+  instance:
+    instanceId: ${spring.application.name}:${random.value}
