@@ -6,6 +6,17 @@ management:
 spring:
   application:
     name: producer
+  rabbitmq:
+    host: rabbit
+    username: guest 
+    password: guest
+cloud:
+  stream:
+    bindings:
+      input:
+        destination: employeeDetails
+        group: employeeQueue
+
 eureka:
   client:
     serviceUrl:

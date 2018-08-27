@@ -18,16 +18,20 @@ services:
      - 8085:8080
     depends_on:
       - eureka-service-discovery
+      - rabbit
     links:
       - eureka-service-discovery
+      - rabbit
   consumer:
     build: ./consumer
     ports:
      - 8081:8081
     depends_on:
      - eureka-service-discovery
+     - rabbit
     links:
      - eureka-service-discovery
+     - rabbit
   netflix-zuul:
     build: ./netflix-zuul
     ports:
@@ -36,4 +40,14 @@ services:
      - eureka-service-discovery
     links:
      - eureka-service-discovery
+  rabbit:
+     container_name: rabbit
+     hostname: rabbit
+     image: rabbitmq:3.6.6-management
+     environment:
+        - RABBITMQ_DEFAULT_USER = user
+        - RABBITMQ_DEFAULT_PASS = user
+     ports:
+        - 5672:5672
+        - 15672:15672
 

@@ -1,9 +1,13 @@
 package com.sathya.producer.controller;
 
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
+//@EnableBinding(Sink.class)
 @RestController
 public class EmployeeService {
 
@@ -22,6 +26,12 @@ public class EmployeeService {
 		emp.setSal(20000);
 		return emp;
 
+	}
+	
+	@RequestMapping("/getRabbitMessage")
+	@StreamListener(value = Sink.INPUT)
+	public void processRegisterEmployees(String employee) {
+		System.out.println("Employees Registered by Client " + employee);
 	}
 
 }

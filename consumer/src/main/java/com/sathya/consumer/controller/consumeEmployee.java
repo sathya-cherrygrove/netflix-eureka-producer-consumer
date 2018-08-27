@@ -2,22 +2,27 @@ package com.sathya.consumer.controller;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import com.netflix.appinfo.InstanceInfo;
 
 @RestController
+@EnableBinding(RabbitMessageInterface.class)
 public class consumeEmployee {
 
 	@Autowired
@@ -25,6 +30,9 @@ public class consumeEmployee {
 
 	@Autowired
 	private LoadBalancerClient loadBalancer;
+	
+	@Autowired
+	private RabbitMessageInterface rabbitmessageinterface;
 
 	@RequestMapping("/consumeProducer")
 	public String consumeEmployee() {
@@ -94,6 +102,15 @@ public class consumeEmployee {
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
 		return new HttpEntity<>(headers);
 
+	}
+
+	@RequestMapping("/sendRabbitMessage")
+	public String sendDataToRabbit(@RequestBody Employee employee)
+	{
+		
+		rabbitmessageinterface.employeeRabbitData().send(MessageBuilder.withPayload(employee).build());
+		System.out.println(employee);
+		return "Message Sent to Rabbit MQ";
 	}
 
 }

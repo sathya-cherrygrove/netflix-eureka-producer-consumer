@@ -6,7 +6,37 @@ management:
 spring:
   application:
     name: consumer
+  rabbitmq:
+    host: rabbit
+    username: guest 
+    password: guest
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka-service-discovery:8090/eureka
+cloud:
+  stream:
+    bindings:
+      input:
+        EmployeeChannel:
+           destination: employeeDetails
+        group: employeeQueue
+
+# spring:
+#   cloud:
+#     stream:
+#       bindings:
+#         employee-channel:
+#           destination: employee-channel
+# spring:
+#   cloud:
+#     stream:
+#       default:
+#         contentType: application/json
+# spring:
+#   rabbitmq:
+#     host: rabbit-mq
+#  spring:
+#    rabbitmq:
+#        port: 5672   
+
